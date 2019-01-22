@@ -1,7 +1,9 @@
 <template>
   <div>
     <h2>Member Page</h2>
-    <button @click="loadMembers">Load</button>
+    <p>Company name: {{ company }}</p>
+    <input v-model="company"  @change="changeCompany(company)"placeholder="Company name">
+    <button @click="loadMembers(company)">Load</button>
     <table :class="$style.table">
       <thead>
         <member-head/>
@@ -26,19 +28,23 @@ export default Vue.extend({
   name: "MemberTable",
   components: { MemberHead, MemberRow },
   data: () => ({
-    members: [] as Member[]
+    members: [] as Member[],
+    company: "lemoncode"
   }),
   methods: {
-    loadMembers: function() {
-      getAllMembers("lemoncode").then(members => {
+    loadMembers: function(company) {
+      getAllMembers(company).then(members => {
         this.members = members;
       });
-    }
+    },
+    changeCompany: function(company) {
+        this.company = company;
+      }
   }
 });
 </script>
 
-+ <style module>
+<style module>
 .table {
   border-collapse: collapse;
   width: 100%;
